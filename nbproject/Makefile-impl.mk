@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=fuzzy_logic
+PROJECTNAME=Sistema_borrosa
 
 # Active Configuration
 DEFAULTCONF=Debug

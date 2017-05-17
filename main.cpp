@@ -12,7 +12,12 @@
  */
 
 #include <cstdlib>
+#include<iostream>
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
 #include "Sistema.h"
+
 using namespace std;
 
 /*
@@ -22,7 +27,7 @@ int main(int argc, char** argv) {
     Sistema *Sistema_pendulo;
     
     Sistema_pendulo = new Sistema();
-    std::cout << "hello";
+    cout << "hello";
     return 0;
 }
 
