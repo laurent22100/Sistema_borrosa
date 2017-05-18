@@ -22,20 +22,41 @@ Sistema::Sistema(const Sistema& orig) {
 
 Sistema::~Sistema() {
 }
-double Sistema::funcion_pertenencia(string conjunto, double u) {
-    double a,b,c,coef1,coef2,salida;
-        if(conjunto== "NG"){ 
+vector<pair<string, double> >  Sistema::funcion_pertenencia(double u) {
+    vector<string> conjunto;
+    vector<pair<string, double> > salida;
+    double a,b,c,coef1,coef2;
+
+    if(u<-50){
+        conjunto.push_back("NG");
+    }else if(u <-25){
+        conjunto.push_back("NG");
+        conjunto.push_back("NP");
+    }else if(u <0){
+        conjunto.push_back("NP");
+        conjunto.push_back("Z");  
+    }else if(u <25){
+        conjunto.push_back("Z");
+        conjunto.push_back("PP");        
+    }else if(u <50){
+        conjunto.push_back("PP");
+        conjunto.push_back("PG");           
+    }else{
+        conjunto.push_back("PG");
+    }
+    for(int i=0; i<conjunto.size();i++){    
+        if(conjunto[i]== "NG"){ 
             a = -100.0;
             b = -50.0;
             c = -25.0;
             if(u <= b && u >= a){
-               salida = 1;
+               salida.push_back(std::make_pair(conjunto[i],1));
             }else if (u <= c && u >= b){
                coef1=((0-1)/(c-b));
                coef2=1-coef1*b;
-               salida = coef1*u+coef2;
+               salida.push_back(std::make_pair(conjunto[i],coef1*u+coef2));
             }
-        }else if ( conjunto =="NP"){  
+        }else if ( conjunto[i] =="NP"){  
             a = -50.0;
             b = -25.0;
             c=0.0;
@@ -46,8 +67,8 @@ double Sistema::funcion_pertenencia(string conjunto, double u) {
                coef1=((0-1)/(c-b));
                coef2=1-coef1*b;
             }
-            salida = coef1*u+coef2;
-        }else if (conjunto == "Z"){  
+            salida.push_back(std::make_pair(conjunto[i],coef1*u+coef2));
+        }else if (conjunto[i] == "Z"){  
             a = -25.0;
             b = 0.0;
             c = 25.0;
@@ -58,40 +79,47 @@ double Sistema::funcion_pertenencia(string conjunto, double u) {
                coef1=((0-1)/(c-b));
                coef2=1-coef1*b;
             }
-            salida = coef1*u+coef2;
-        }else if (conjunto== "PP"){  
+            salida.push_back(std::make_pair(conjunto[i],coef1*u+coef2));
+        }else if (conjunto[i]== "PP"){  
             a = 0.0;
             b = 25.0;
             c = 50.0;
             if(u <= b && u >= a){
                coef1=((1-0)/(b-a));
                coef2=0-coef1*a;
-               cout<<"eee";
             }else if (u <= c && u >= b){
                coef1=((0-1)/(c-b));
                coef2=1-coef1*b;
             }
-            salida = coef1*u+coef2;
-        } else if (conjunto == "PG"){ 
+            salida.push_back(std::make_pair(conjunto[i],coef1*u+coef2));
+        } else if (conjunto[i] == "PG"){ 
             a = 25.0;
             b = 50.0;
             c = 100.0;
             if(u <= b && u >= a){
                coef1=((1-0)/(b-a));
                coef2=0-coef1*a;
-               salida = coef1*u+coef2;
+               salida.push_back(std::make_pair(conjunto[i],coef1*u+coef2));
             }else if (u <= c && u >= b){
-               salida = 1;
+               salida.push_back(std::make_pair(conjunto[i],1));
             }
         }
-      
-      return salida;
+    }
+
+  return salida;
 
 }
 void Sistema::funcion_borrosificacion() {//Singleton
     
 }
-void Sistema::funcion_inferencia() { // Regla del minimo
+double Sistema::funcion_inferencia(double u_teta,double u_omega) { // Regla del minimo
+    double min;
+    if(u_teta > u_omega){
+        min = u_omega;
+    }else{
+        min = u_teta;
+    }
+    return min;
     
 }
 void Sistema::funcion_deborrosificacion() {

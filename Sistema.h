@@ -20,6 +20,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "Sistema.h"
+#include <vector>
 using namespace std;
 
 
@@ -37,9 +38,9 @@ public:
     Sistema();
     Sistema(const Sistema& orig);
     virtual ~Sistema();
-    double funcion_pertenencia(string conjunto, double u); // (O de inclusion) Triangular / u puede ser teta o omega
+    vector<pair<string, double> > funcion_pertenencia(double u); // (O de inclusion) Triangular / u puede ser teta o omega
     void funcion_borrosificacion(); // TIPO SINGLETON
-    void funcion_inferencia(); // regla del minimo
+    double funcion_inferencia(double u_teta,double u_omega); // regla del minimo
     void funcion_deborrosificacion();// MEDIA DE CENTROS
     void funcion_fam(string teta, string omega) ;
 private:

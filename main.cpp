@@ -27,9 +27,12 @@ int main(int argc, char** argv) {
     Sistema *Sistema_pendulo;
     
     Sistema_pendulo = new Sistema();
-    cout << "hello"<< endl;
-    
-    cout <<"salida : "<< Sistema_pendulo->funcion_pertenencia("PP",10)<<endl;
+
+    vector<pair<string, double> > pair;
+    pair = Sistema_pendulo->funcion_pertenencia(10);
+    for(int i=0;i <pair.size();i++){
+        cout<<"conjunto : "<< pair[i].first <<"  /  salida  : "<< pair[i].second<<endl;
+    }
     return 0;
 }
 
