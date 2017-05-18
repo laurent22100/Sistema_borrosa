@@ -6,11 +6,11 @@ Hico :
 funcion_pertenencia();
 
 Haciendo :
-funcion_borrosificacion();
+funcion_inferencia();
 funcion_fam();
 
 falta :
-funcion_inferencia();
+funcion_borrosificacion();
 funcion_deborrosificacion();
 ...
 
