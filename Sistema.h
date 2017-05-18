@@ -14,8 +14,16 @@
 #ifndef SISTEMA_H
 #define SISTEMA_H
 
-#include <string>
+#include <cstdlib>
+#include<iostream>
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#include "Sistema.h"
 using namespace std;
+
+
+// Conjuntos
 #define NG "NG"
 #define NP "NP"
 #define Z "Z"
@@ -29,8 +37,9 @@ public:
     Sistema();
     Sistema(const Sistema& orig);
     virtual ~Sistema();
-    void funcion_pertenencia();
+    double funcion_pertenencia(string conjunto, double u); // (O de inclusion) Triangular / u puede ser teta o omega
     void funcion_borrosificacion(); // TIPO SINGLETON
+    void funcion_inferencia(); // regla del minimo
     void funcion_deborrosificacion();// MEDIA DE CENTROS
     void funcion_fam(string teta, string omega) ;
 private:

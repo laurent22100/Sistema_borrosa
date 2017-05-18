@@ -27,7 +27,9 @@ int main(int argc, char** argv) {
     Sistema *Sistema_pendulo;
     
     Sistema_pendulo = new Sistema();
-    cout << "hello";
+    cout << "hello"<< endl;
+    
+    cout <<"salida : "<< Sistema_pendulo->funcion_pertenencia("PP",10)<<endl;
     return 0;
 }
 
