@@ -22,7 +22,7 @@ Sistema::Sistema(const Sistema& orig) {
 
 Sistema::~Sistema() {
 }
-vector<pair<string, double> >  Sistema::funcion_pertenencia(double u) {
+void  Sistema::funcion_pertenencia(string nombre,double u) {
     vector<string> conjunto;
     vector<pair<string, double> > salida;
     double a,b,c,coef1,coef2;
@@ -106,20 +106,34 @@ vector<pair<string, double> >  Sistema::funcion_pertenencia(double u) {
         }
     }
 
-  return salida;
+    if(nombre == "teta"){
+        setInclusionTeta(salida);
+    }else if (nombre == "omega"){
+        setInclusionOmega(salida);
+    }
 
 }
+
+
 void Sistema::funcion_borrosificacion() {//Singleton
     
 }
-double Sistema::funcion_inferencia(double u_teta,double u_omega) { // Regla del minimo
-    double min;
-    if(u_teta > u_omega){
-        min = u_omega;
-    }else{
-        min = u_teta;
+
+vector<pair<string, double> > Sistema::funcion_inferencia(){ // regla del minimo
+    vector<pair<string, double> > alphaParaCadaRegla; // REGLE, alpha
+    int nb=0;
+    for(int i=0;i<inclusionTeta.size();i++){
+        for(int j=0;j<inclusionOmega.size();j++){
+            if(inclusionTeta[i].second<inclusionOmega[j].second){
+                alphaParaCadaRegla.push_back(std::make_pair("R "+inclusionTeta[i].first+" "+inclusionOmega[j].first,inclusionTeta[i].second));
+            }else{
+                alphaParaCadaRegla.push_back(std::make_pair("R "+inclusionTeta[i].first+" "+inclusionOmega[j].first,inclusionOmega[j].second));
+            }
+            nb++;
+        }
     }
-    return min;
+
+    return alphaParaCadaRegla;
     
 }
 void Sistema::funcion_deborrosificacion() {
@@ -127,5 +141,23 @@ void Sistema::funcion_deborrosificacion() {
 void Sistema::funcion_fam(string teta, string omega) {
     if(teta == Z && omega == Z){
         this->_fuerza = Z;
+    }else if(teta == PP && omega == NP){
+        this->_fuerza = NP;
     }
+}
+
+vector<pair<string, double> >  Sistema::getInclusionTeta(){
+    return this->inclusionTeta;
+}
+
+vector<pair<string, double> >  Sistema::getInclusionOmega(){
+    return this->inclusionOmega;
+}
+
+void Sistema::setInclusionTeta(vector<pair<string, double> > teta){
+    this->inclusionTeta = teta;
+}
+
+void Sistema::setInclusionOmega(vector<pair<string, double> > omega){
+    this->inclusionOmega = omega;
 }

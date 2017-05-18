@@ -38,15 +38,19 @@ public:
     Sistema();
     Sistema(const Sistema& orig);
     virtual ~Sistema();
-    vector<pair<string, double> > funcion_pertenencia(double u); // (O de inclusion) Triangular / u puede ser teta o omega
+    void funcion_pertenencia(string nombre,double u); // (O de inclusion) Triangular / u puede ser teta o omega
     void funcion_borrosificacion(); // TIPO SINGLETON
-    double funcion_inferencia(double u_teta,double u_omega); // regla del minimo
+    vector<pair<string, double> > funcion_inferencia(); // regla del minimo
     void funcion_deborrosificacion();// MEDIA DE CENTROS
     void funcion_fam(string teta, string omega) ;
+    vector<pair<string, double> > getInclusionTeta(void);
+    vector<pair<string, double> > getInclusionOmega(void);
+    void setInclusionOmega(vector<pair<string, double> >);
+    void setInclusionTeta(vector<pair<string, double> >);
 private:
     string _fuerza;
-    
-
+    vector<pair<string, double> > inclusionTeta;
+    vector<pair<string, double> > inclusionOmega;
 };
 
 #endif /* SISTEMA_H */
