@@ -38,7 +38,7 @@ public:
     Sistema();
     Sistema(const Sistema& orig);
     virtual ~Sistema();
-    void funcion_pertenencia(string nombre,double u); // (O de inclusion) Triangular / u puede ser teta o omega
+    void funcion_pertenencia(double x[]); // (O de inclusion) Triangular 
     void funcion_borrosificacion(); // TIPO SINGLETON
     vector<pair<string, double> > funcion_inferencia(); // regla del minimo
     void funcion_deborrosificacion();// MEDIA DE CENTROS

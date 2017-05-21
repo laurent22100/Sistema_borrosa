@@ -25,24 +25,21 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
+    vector<pair<string, double> > alphaParaCadaRegla;
     double teta =10.0;
     double omega = -5.0;
+    
+    double x[2] = {teta,omega};
     
     Sistema *Sistema_pendulo;
     
     Sistema_pendulo = new Sistema();
 
-    vector<pair<string, double> > inclusionTeta;
-    vector<pair<string, double> > inclusionOmega;
-    
-    Sistema_pendulo->funcion_pertenencia("teta",10);
-    Sistema_pendulo->funcion_pertenencia("omega",-5);
-    
-    vector<pair<string, double> > alphaParaCadaRegla;
-    
+    Sistema_pendulo->funcion_pertenencia(x);
     alphaParaCadaRegla = Sistema_pendulo->funcion_inferencia();
+    
     for(int i=0;i<alphaParaCadaRegla.size();i++){
-        cout<<"Regla : "<<alphaParaCadaRegla[i].first<< " alpha "<< i << " = " << alphaParaCadaRegla[i].second <<endl;
+        cout<<"Regla"<<i<<" : "<<alphaParaCadaRegla[i].first<< " alpha "<< i << " = " << alphaParaCadaRegla[i].second <<endl;
     }
     
 
