@@ -26,8 +26,8 @@ using namespace std;
 int main(int argc, char** argv) {
     
 
-    double teta =10.0;
-    double omega = -5.0;
+    double teta =17.0;
+    double omega = -85.0;
     
     double resultat;
     
@@ -41,6 +41,7 @@ int main(int argc, char** argv) {
     Sistema_pendulo->funcion_inferencia();
     Sistema_pendulo->funcion_borrosificacion();
     resultat=Sistema_pendulo->funcion_deborrosificacion();
+    
     
     cout <<resultat<<endl;
 

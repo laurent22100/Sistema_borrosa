@@ -22,23 +22,24 @@ Sistema::Sistema(const Sistema& orig) {
 
 Sistema::~Sistema() {
 }
+
 void  Sistema::funcion_pertenencia(double x[2]) {
     vector<string> conjunto;
     vector<pair<string, double> > salida;
     double a,b,c,coef1,coef2;
     for(int k=0; k<2;k++){
-        if(x[k]<-50){
+        if(x[k]<centro1){
             conjunto.push_back("NG");
-        }else if(x[k] <-25){
+        }else if(x[k] <centro2){
             conjunto.push_back("NG");
             conjunto.push_back("NP");
-        }else if(x[k] <0){
+        }else if(x[k] <centro3){
             conjunto.push_back("NP");
             conjunto.push_back("Z");  
-        }else if(x[k] <25){
+        }else if(x[k] <centro4){
             conjunto.push_back("Z");
             conjunto.push_back("PP");       
-        }else if(x[k] <50){
+        }else if(x[k] <centro5){
             conjunto.push_back("PP");
             conjunto.push_back("PG");    
         }else{
@@ -48,8 +49,8 @@ void  Sistema::funcion_pertenencia(double x[2]) {
         for(int i=0; i<conjunto.size();i++){    
             if(conjunto[i]== "NG"){ 
                 a = -100.0;
-                b = -50.0;
-                c = -25.0;
+                b = centro1;
+                c = centro2;
                 if(x[k] <= b && x[k] >= a){
                    salida.push_back(std::make_pair(conjunto[i],1));
                 }else if (x[k] <= c && x[k] >= b){
@@ -58,9 +59,9 @@ void  Sistema::funcion_pertenencia(double x[2]) {
                    salida.push_back(std::make_pair(conjunto[i],coef1*x[k]+coef2));
                 }
             }else if ( conjunto[i] =="NP"){  
-                a = -50.0;
-                b = -25.0;
-                c=0.0;
+                a = centro1;
+                b = centro2;
+                c = centro3;
                 if(x[k] <= b && x[k] >= a){
                    coef1=((1-0)/(b-a));
                    coef2=0-coef1*a;
@@ -70,9 +71,9 @@ void  Sistema::funcion_pertenencia(double x[2]) {
                 }
                 salida.push_back(std::make_pair(conjunto[i],coef1*x[k]+coef2));
             }else if (conjunto[i] == "Z"){  
-                a = -25.0;
-                b = 0.0;
-                c = 25.0;
+                a = centro2;
+                b = centro3;
+                c = centro4;
                 if(x[k] <= b && x[k] >= a){
                    coef1=((1-0)/(b-a));
                    coef2=0-coef1*a;
@@ -82,9 +83,9 @@ void  Sistema::funcion_pertenencia(double x[2]) {
                 }
                 salida.push_back(std::make_pair(conjunto[i],coef1*x[k]+coef2));
             }else if (conjunto[i]== "PP"){  
-                a = 0.0;
-                b = 25.0;
-                c = 50.0;
+                a = centro3;
+                b = centro4;
+                c = centro5;
                 if(x[k] <= b && x[k] >= a){
                    coef1=((1-0)/(b-a));
                    coef2=0-coef1*a;
@@ -94,8 +95,8 @@ void  Sistema::funcion_pertenencia(double x[2]) {
                 }
                 salida.push_back(std::make_pair(conjunto[i],coef1*x[k]+coef2));
             } else if (conjunto[i] == "PG"){ 
-                a = 25.0;
-                b = 50.0;
+                a = centro4;
+                b = centro5;
                 c = 100.0;
                 if(x[k] <= b && x[k] >= a){
                    coef1=((1-0)/(b-a));
@@ -116,7 +117,6 @@ void  Sistema::funcion_pertenencia(double x[2]) {
 
     }
 }
-
 
 void Sistema::funcion_borrosificacion() {//Singleton
     for(int i=0;i<alphaParaCadaRegla.size();i++){
@@ -142,93 +142,94 @@ void Sistema::funcion_inferencia(){ // regla del minimo
         }
     }    
 }
+
 double Sistema::funcion_deborrosificacion() {
     double numResultado,denResultado,resultado;
     for(int i=0;i<centro_Y_alpha.size();i++){
-        numResultado += centro_Y_alpha[i].second*sqrt(centro_Y_alpha[i].first*centro_Y_alpha[i].first);
+        numResultado += centro_Y_alpha[i].second*centro_Y_alpha[i].first;
         denResultado += centro_Y_alpha[i].second;
     }
     resultado = numResultado/denResultado;
-    cout << resultado<<endl;
     return resultado;
 }
+
 double Sistema::funcion_fam(string teta_omega) {
     double centroConjuntoFinal;
     if(teta_omega == "NG/NG"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro1;
     }else if(teta_omega == "NG/NP"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro1;
     }else if(teta_omega == "NG/Z"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro1;
     }else if(teta_omega == "NG/PP"){
         // NP;
-        centroConjuntoFinal = -25.0;
+        centroConjuntoFinal = centro3;
     }else if(teta_omega == "NG/PG"){
         // Z;
-        centroConjuntoFinal = 0.0;
+        centroConjuntoFinal = centro4;
     }else if(teta_omega == "NP/NG"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro2;
     }else if(teta_omega == "NP/NP"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro2;
     }else if(teta_omega == "NP/Z"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro2;
     }else if(teta_omega == "NP/PP"){
         // Z;
-        centroConjuntoFinal = 0.0;
+        centroConjuntoFinal = centro3;
     }else if(teta_omega == "NP/PG"){
         // PP;
-        centroConjuntoFinal = 25.0;
+        centroConjuntoFinal = centro4;
     }else if(teta_omega == "Z/NG"){
         // NG;
-        centroConjuntoFinal = -50.0;
+        centroConjuntoFinal = centro1;
     }else if(teta_omega == "Z/NP"){
         // NP;
-        centroConjuntoFinal = -25.0;
+        centroConjuntoFinal = centro2;
     }else if(teta_omega == "Z/Z"){
         // Z;
-        centroConjuntoFinal = 0.0;
+        centroConjuntoFinal = centro3;
     }else if(teta_omega == "Z/PP"){
         // PP;
-        centroConjuntoFinal = 25.0;
+        centroConjuntoFinal = centro4;
     }else if(teta_omega == "Z/PG"){
         // PG;
-        centroConjuntoFinal = 50.0;
+        centroConjuntoFinal = centro5;
     }else if(teta_omega == "PP/NG"){
         // NP;
-        centroConjuntoFinal = -25.0;
+        centroConjuntoFinal = centro2;
     }else if(teta_omega == "PP/NP"){
         // Z;
-        centroConjuntoFinal = 0.0;
+        centroConjuntoFinal = centro3;
     }else if(teta_omega == "PP/Z"){
         // PP;
-        centroConjuntoFinal = 25.0;
+        centroConjuntoFinal = centro4;
     }else if(teta_omega == "PP/PP"){
         // PG;
-        centroConjuntoFinal = 50.0;
+        centroConjuntoFinal = centro4;
     }else if(teta_omega == "PP/PG"){
         // PG;
-        centroConjuntoFinal = 50.0;
+        centroConjuntoFinal = centro4;
     }else if(teta_omega == "PG/NG"){
         // Z;
-        centroConjuntoFinal = 0.0;
+        centroConjuntoFinal = centro2;
     }else if(teta_omega == "PG/NP"){
         // PP;
-        centroConjuntoFinal = 25.0;
+        centroConjuntoFinal = centro3;
     }else if(teta_omega == "PG/Z"){
         // PG;
-        centroConjuntoFinal = 50.0;
+        centroConjuntoFinal = centro5;
     }else if(teta_omega == "PG/PP"){
         // PG;
-        centroConjuntoFinal = 50.0;
+        centroConjuntoFinal = centro5;
     }else if(teta_omega == "PG/PG"){
         // PG;
-        centroConjuntoFinal = 50.0;
+        centroConjuntoFinal = centro5;
     }
     return centroConjuntoFinal;
 }
@@ -241,9 +242,11 @@ vector<pair<string, double> >  Sistema::getInclusionTeta(){
 vector<pair<string, double> >  Sistema::getInclusionOmega(){
     return this->inclusionOmega;
 }
+
 vector<pair<string, double> >  Sistema::getAlphaParaCadaRegla(){
     return this->alphaParaCadaRegla;
 }
+
 void Sistema::setInclusionTeta(vector<pair<string, double> > teta){
     this->inclusionTeta = teta;
 }
