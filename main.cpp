@@ -25,9 +25,11 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     
-    vector<pair<string, double> > alphaParaCadaRegla;
+
     double teta =10.0;
     double omega = -5.0;
+    
+    double resultat;
     
     double x[2] = {teta,omega};
     
@@ -36,12 +38,11 @@ int main(int argc, char** argv) {
     Sistema_pendulo = new Sistema();
 
     Sistema_pendulo->funcion_pertenencia(x);
-    alphaParaCadaRegla = Sistema_pendulo->funcion_inferencia();
+    Sistema_pendulo->funcion_inferencia();
+    Sistema_pendulo->funcion_borrosificacion();
+    resultat=Sistema_pendulo->funcion_deborrosificacion();
     
-    for(int i=0;i<alphaParaCadaRegla.size();i++){
-        cout<<"Regla"<<i<<" : "<<alphaParaCadaRegla[i].first<< " alpha "<< i << " = " << alphaParaCadaRegla[i].second <<endl;
-    }
-    
+    cout <<resultat<<endl;
 
     return 0;
 }

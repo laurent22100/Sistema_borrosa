@@ -119,37 +119,120 @@ void  Sistema::funcion_pertenencia(double x[2]) {
 
 
 void Sistema::funcion_borrosificacion() {//Singleton
-    
+    for(int i=0;i<alphaParaCadaRegla.size();i++){
+        cout<<"Regla "<<alphaParaCadaRegla[i].first<<" : ";
+        // tener el centro del conjunto de que responde a las reglas
+        centro_Y_alpha.push_back(std::make_pair(funcion_fam(alphaParaCadaRegla[i].first),alphaParaCadaRegla[i].second ));
+        cout<<" // Centro : "<<centro_Y_alpha[i].first<< " //Alpha_"<< i << " = " << centro_Y_alpha[i].second <<endl;
+    }   
 }
 
-vector<pair<string, double> > Sistema::funcion_inferencia(){ // regla del minimo
-    vector<pair<string, double> > alphaParaCadaRegla; // REGLE, alpha
+void Sistema::funcion_inferencia(){ // regla del minimo
     int nb=0;
     for(int i=0;i<inclusionTeta.size();i++){
         
         for(int j=0;j<inclusionOmega.size();j++){
             
             if(inclusionTeta[i].second<inclusionOmega[j].second){
-                alphaParaCadaRegla.push_back(std::make_pair(inclusionTeta[i].first+" "+inclusionOmega[j].first,inclusionTeta[i].second));
+                this->alphaParaCadaRegla.push_back(std::make_pair(inclusionTeta[i].first+"/"+inclusionOmega[j].first,inclusionTeta[i].second));
             }else{
-                alphaParaCadaRegla.push_back(std::make_pair(inclusionTeta[i].first+" "+inclusionOmega[j].first,inclusionOmega[j].second));
+                this->alphaParaCadaRegla.push_back(std::make_pair(inclusionTeta[i].first+"/"+inclusionOmega[j].first,inclusionOmega[j].second));
             }
             nb++;
         }
+    }    
+}
+double Sistema::funcion_deborrosificacion() {
+    double numResultado,denResultado,resultado;
+    for(int i=0;i<centro_Y_alpha.size();i++){
+        numResultado += centro_Y_alpha[i].second*sqrt(centro_Y_alpha[i].first*centro_Y_alpha[i].first);
+        denResultado += centro_Y_alpha[i].second;
     }
+    resultado = numResultado/denResultado;
+    cout << resultado<<endl;
+    return resultado;
+}
+double Sistema::funcion_fam(string teta_omega) {
+    double centroConjuntoFinal;
+    if(teta_omega == "NG/NG"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "NG/NP"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "NG/Z"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "NG/PP"){
+        // NP;
+        centroConjuntoFinal = -25.0;
+    }else if(teta_omega == "NG/PG"){
+        // Z;
+        centroConjuntoFinal = 0.0;
+    }else if(teta_omega == "NP/NG"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "NP/NP"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "NP/Z"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "NP/PP"){
+        // Z;
+        centroConjuntoFinal = 0.0;
+    }else if(teta_omega == "NP/PG"){
+        // PP;
+        centroConjuntoFinal = 25.0;
+    }else if(teta_omega == "Z/NG"){
+        // NG;
+        centroConjuntoFinal = -50.0;
+    }else if(teta_omega == "Z/NP"){
+        // NP;
+        centroConjuntoFinal = -25.0;
+    }else if(teta_omega == "Z/Z"){
+        // Z;
+        centroConjuntoFinal = 0.0;
+    }else if(teta_omega == "Z/PP"){
+        // PP;
+        centroConjuntoFinal = 25.0;
+    }else if(teta_omega == "Z/PG"){
+        // PG;
+        centroConjuntoFinal = 50.0;
+    }else if(teta_omega == "PP/NG"){
+        // NP;
+        centroConjuntoFinal = -25.0;
+    }else if(teta_omega == "PP/NP"){
+        // Z;
+        centroConjuntoFinal = 0.0;
+    }else if(teta_omega == "PP/Z"){
+        // PP;
+        centroConjuntoFinal = 25.0;
+    }else if(teta_omega == "PP/PP"){
+        // PG;
+        centroConjuntoFinal = 50.0;
+    }else if(teta_omega == "PP/PG"){
+        // PG;
+        centroConjuntoFinal = 50.0;
+    }else if(teta_omega == "PG/NG"){
+        // Z;
+        centroConjuntoFinal = 0.0;
+    }else if(teta_omega == "PG/NP"){
+        // PP;
+        centroConjuntoFinal = 25.0;
+    }else if(teta_omega == "PG/Z"){
+        // PG;
+        centroConjuntoFinal = 50.0;
+    }else if(teta_omega == "PG/PP"){
+        // PG;
+        centroConjuntoFinal = 50.0;
+    }else if(teta_omega == "PG/PG"){
+        // PG;
+        centroConjuntoFinal = 50.0;
+    }
+    return centroConjuntoFinal;
+}
 
-    return alphaParaCadaRegla;
-    
-}
-void Sistema::funcion_deborrosificacion() {
-}
-void Sistema::funcion_fam(string teta, string omega) {
-    if(teta == Z && omega == Z){
-        this->_fuerza = Z;
-    }else if(teta == PP && omega == NP){
-        this->_fuerza = NP;
-    }
-}
 
 vector<pair<string, double> >  Sistema::getInclusionTeta(){
     return this->inclusionTeta;
@@ -158,11 +241,17 @@ vector<pair<string, double> >  Sistema::getInclusionTeta(){
 vector<pair<string, double> >  Sistema::getInclusionOmega(){
     return this->inclusionOmega;
 }
-
+vector<pair<string, double> >  Sistema::getAlphaParaCadaRegla(){
+    return this->alphaParaCadaRegla;
+}
 void Sistema::setInclusionTeta(vector<pair<string, double> > teta){
     this->inclusionTeta = teta;
 }
 
 void Sistema::setInclusionOmega(vector<pair<string, double> > omega){
     this->inclusionOmega = omega;
+}
+
+void Sistema::setAlphaParaCadaRegla(vector<pair<string, double> > alphaParaCadaRegla){
+    this->alphaParaCadaRegla = alphaParaCadaRegla;
 }

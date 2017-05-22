@@ -21,15 +21,8 @@
 #include "string.h"
 #include "Sistema.h"
 #include <vector>
+#include <math.h>
 using namespace std;
-
-
-// Conjuntos
-#define NG "NG"
-#define NP "NP"
-#define Z "Z"
-#define PP "PP"
-#define NP "NP"
 
 
 
@@ -40,17 +33,21 @@ public:
     virtual ~Sistema();
     void funcion_pertenencia(double x[]); // (O de inclusion) Triangular 
     void funcion_borrosificacion(); // TIPO SINGLETON
-    vector<pair<string, double> > funcion_inferencia(); // regla del minimo
-    void funcion_deborrosificacion();// MEDIA DE CENTROS
-    void funcion_fam(string teta, string omega) ;
+    void funcion_inferencia(); // regla del minimo
+    double funcion_deborrosificacion();// MEDIA DE CENTROS
+    double funcion_fam(string teta_omega) ;
     vector<pair<string, double> > getInclusionTeta(void);
     vector<pair<string, double> > getInclusionOmega(void);
     void setInclusionOmega(vector<pair<string, double> >);
     void setInclusionTeta(vector<pair<string, double> >);
+    vector<pair<string, double> > getAlphaParaCadaRegla(void);
+    void setAlphaParaCadaRegla(vector<pair<string, double> >);
 private:
     string _fuerza;
+    vector<pair<double, double> > centro_Y_alpha;
     vector<pair<string, double> > inclusionTeta;
     vector<pair<string, double> > inclusionOmega;
+    vector<pair<string, double> > alphaParaCadaRegla; // REGLE, alpha
 };
 
 #endif /* SISTEMA_H */
